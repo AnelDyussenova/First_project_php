@@ -1,10 +1,31 @@
 <html>
+<head>
+<style>
+#create_form{
+visibility: hidden;
+display: none;
+}
+#update_form{
+visibility: hidden;
+display: none;
+}
+</style>
+</head>
 <body>
-<form actiom='' method='POST'>
-	<input type='text' name='f_name'>
-	<input type='text' name='surname'>
-	<input type='text' name='email'>
-	<input type='submit' name='create' value='Create' onclick='createR()'>
+<button id="create_btn" onclick="cr_vis()">Create</button>
+<button id="update_btn" onclick="up_vis()">Update</button>
+<form id='create_form' action='create.php' method='POST'>
+	Name: <input type='text' name='f_name'><br/>
+	Surname: <input type='text' name='surname'><br/>
+	Email: <input type='text' name='email'><br/>
+	<input type='submit' name='create' value='Create'>
+</form>
+<form id='update_form' action='update.php' method='POST'>
+	Id: <input type='text' name='id'><br/>
+	Name: <input type='text' name='f_name'><br/>
+	Surname: <input type='text' name='surname'><br/>
+	Email: <input type='text' name='email'><br/>
+	<input type='submit' name='update' value='Update'>
 </form>
 </body>
 <?php 
@@ -20,47 +41,20 @@ echo "<tr>
 	<td>".$row['surename']."</td>
 	<td>".$row['email']."</td>
 	<td>
-                <form action='' method='post'>
-                    <input type='button' name='delete' value='Delete' onclick='deleteR(this,".$row['id'].")'>
-                    <input type='button' name='update' value='Update' onclick='updateR(this,".$row['id'].")'>
+                <form action='' method='POST'>
+                    <input type='button' name='delete' value='Delete' onclick='deleterow(this,".$row['id'].")'>
                 </form>
         </td>
 </tr>";
 }
 echo "</table>";
 
-//if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['create']))
-//    {
-//        createR();
-//    }
-//else if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['delete']))
-//    {
-//        deleteR();
-//  }
-//function createR(){
-//	$create_value= $_POST["create"];
-//	$con = mysqli_connect('localhost','root','') or die('No connection');
-//	mysqli_select_db($con,'database1') or die('db will not open');
-//	$sql= "Insert into users (name,surename,email) values ('".$_POST['f_name']."','".$_POST['surname']."','".$_POST['email']."')";
-//	$res= mysqli_query($con,$sql) or die("Invalid query");
-//}
-//function deleteR(){
-//	$create_value= $_POST["delete"];
-//	$con = mysqli_connect('localhost','root','') or die('No connection');
-//	mysqli_select_db($con,'database1') or die('db will not open');
-//	$sql= "delte from users where id=";
-//	$res= mysqli_query($con,$sql) or die("Invalid query");
-//}
-
-
-
+mysqli_close($conn);
 ?>
-
 <script>
-    function deleteR(r,id){
+    function deleterow(r,id){
         var req = new XMLHttpRequest();
         req.onreadystatechange = function() {                     
-
         if (req.readyState == 4 && req.status == 200) {
 
             }
@@ -70,34 +64,17 @@ echo "</table>";
         document.getElementById("table").deleteRow(i);
         req.open("GET", "delete.php?id="+id, true);
         req.send();
-    }  
-    function updateR(r,id){
-	
-        var req = new XMLHttpRequest();
-        req.onreadystatechange = function() {                     
-
-        if (req.readyState == 4 && req.status == 200) {
-
-            }
-        };
-        var i = r.parentNode.parentNode.parentNode.rowIndex;
-        console.log(i);
-//       document.getElementById("table").deleteRow(i);
-        req.open("GET", "update.php?id="+id, true);
-        req.send();
     } 
-    function createR(){
-        var req = new XMLHttpRequest();
-        req.onreadystatechange = function() {                     
-
-        if (req.readyState == 4 && req.status == 200) {
-
-            }
-        };
-        var i = r.parentNode.parentNode.parentNode.rowIndex;
-        console.log(i);
-        document.getElementById("table").deleteRow(i);
-        req.open("POST", "create.php", true);
-        req.send();
-    }  
+	function cr_vis(){
+	    document.getElementById("create_form").style.visibility = "visible"; 
+	    document.getElementById("create_form").style.display = "block";
+	    document.getElementById("update_form").style.display = "none";  
+	}
+	function up_vis(){
+	    document.getElementById("update_form").style.visibility = "visible"; 
+	    document.getElementById("update_form").style.display = "block"; 
+	    document.getElementById("create_form").style.display = "none";
+	}
 </script>
+
+

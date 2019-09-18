@@ -7,11 +7,6 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 $sql = 'delete FROM users WHERE id = '.$id;
-if (mysqli_query($conn, $sql)) {
-    mysqli_close($conn);
-    echo "Successfully deleted!";
-    exit;
-} else {
-    echo "Error deleting ";
-}
+$res=mysqli_query($conn, $sql);
+mysqli_close($conn);
 ?>
